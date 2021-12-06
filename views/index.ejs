@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Message Board</title>
+        <link rel="stylesheet" type="text/html" href="stylesheets/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>
+                The Dojo Message Board
+            </h1>
+            <div>
+                <h2>Add a Message</h2>
+                <form action="/addMessage" method="POST">
+                    <div>
+                        <label for="name">
+                            Name:
+                        </label>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div>
+                        <label for="message">
+                            Message:
+                        </label>
+                    </div>
+                    <textarea name="message" id="message"></textarea>
+                    <div>
+                        <button type="submit"> 
+                            Post Message
+                        </button>
+                    </div>
+                </form>
+                <div class="error">
+                    <% if( messages.error ){ %>
+                        <%= messages.error %>
+                    <% } %>
+                </div>
+            </div>
+    
+            <h3>
+                List of current messages:
+            </h3>
+            <% for( let i = 0; i < entries.length; i ++ ){ %>
+            <div class="card">
+                <h4>Name: <%= entries[i].name %> </h4>
+                <h4>Comment: <%= entries[i].startComment %> </h4>
+    
+                <div class="messageBox">
+                    <h5>Comments for this post:</h5>
+                    <% for(let j = 0; j < entries[i].comments.length; j ++ ){ %>
+                        <div>Name: <%= entries[i].comments[j].commentName %></div>
+                        <div>Comment: <%= entries[i].comments[j].commentContent %> </div>
+                    <% } %>
+                </div>
+    
+                <div>
+                    <h5>Add a New Message to this Post</h5>
+                    <form action="/addComment" method="POST">
+                        <div>
+                            <label for="commentName">
+                                Name:
+                            </label>
+                            <input type="text" name="commentName" id="commentName">
+                        </div>
+                        <div>
+                            <label for="commentContent">
+                                Message:
+                            </label>
+                        </div>
+                        <textarea name="commentContent" id="commentContent"></textarea>
+                        <input type="hidden" name="id" id="id" value="<%= entries[i]._id %>">
+                        <div>
+                            <button type="submit"> 
+                                Post Message
+                            </button>
+                        </div>
+                    </form>
+                    <div class="error">
+                        <% if( messages.errorC ){ %>
+                            <%= messages.errorC %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </body>
+</html>
